@@ -17,12 +17,12 @@ public class Notebook {
         this.purposeMap = new HashMap<>();
     }
 
-    public boolean addMapPurpose (Purpose purpose) {
+    public boolean addMapPurpose(Purpose purpose) {
         return purposeMap.put(purpose.getId(), purpose) == null;
     }
 
     public void removeMapPurpose(int id) {
-        if (purposeMap.containsKey(id)) {
+        if ((getPurposeMap()).containsKey(id)) {
             purposeMap.remove(id);
         }
     }
@@ -36,36 +36,36 @@ public class Notebook {
                         continue;
                     }
                     if (integerPurposeEntry != null && integerPurposeEntry.getValue().getClass()
-                            .equals(TypeOfPurpose.DAILY)) {
-                        for (int i = 0; i < 10000; i++) {
+                            .equals(DailyPurpose.class)) {
+                        for (int i = 0; i < 365; i++) {
                             if (integerPurposeEntry != null && integerPurposeEntry.getValue().getDate().toLocalDate()
                                     .isEqual(integerPurposeEntry.getValue().getDate().toLocalDate().plusDays(i))) {
                                 purposeForDay.put(integerPurposeEntry.getKey(), integerPurposeEntry.getValue());
                             }
                         }
                     } else if (integerPurposeEntry != null && integerPurposeEntry.getValue().getClass()
-                            .equals(TypeOfPurpose.WEEKLY)) {
-                        for (int i = 0; i < 3000; i++) {
+                            .equals(WeeklyPurpose.class)) {
+                        for (int i = 0; i < 1000; i++) {
                             if (date.isEqual(integerPurposeEntry.getValue().getDate().toLocalDate().plusWeeks(i))) {
                                 purposeForDay.put(integerPurposeEntry.getKey(), integerPurposeEntry.getValue());
                             }
                         }
                     } else if (integerPurposeEntry != null && integerPurposeEntry.getValue().getClass()
-                            .equals(TypeOfPurpose.MONTHLY)) {
+                            .equals(MonthlyPurpose.class)) {
                         for (int i = 0; i < 1000; i++) {
                             if (date.isEqual(integerPurposeEntry.getValue().getDate().toLocalDate().plusMonths(i))) {
                                 purposeForDay.put(integerPurposeEntry.getKey(), integerPurposeEntry.getValue());
                             }
                         }
                     } else if (integerPurposeEntry != null && integerPurposeEntry.getValue().getClass()
-                            .equals(TypeOfPurpose.ANNUAL)) {
-                        for (int i = 0; i < 200; i++) {
+                            .equals(AnnualPurpose.class)) {
+                        for (int i = 0; i < 2000; i++) {
                             if (date.isEqual(integerPurposeEntry.getValue().getDate().toLocalDate().plusYears(i))) {
                                 purposeForDay.put(integerPurposeEntry.getKey(), integerPurposeEntry.getValue());
                             }
                         }
                     } else if (integerPurposeEntry != null && integerPurposeEntry.getValue().getClass()
-                            .equals(TypeOfPurpose.ONE_TIME)) {
+                            .equals(OneTimePurpose.class)) {
                         if (date.isEqual(integerPurposeEntry.getValue().getDate().toLocalDate())) {
                             purposeForDay.put(integerPurposeEntry.getKey(), integerPurposeEntry.getValue());
                         }
@@ -75,10 +75,10 @@ public class Notebook {
                     System.out.println(integerPurposeEntry.getValue());
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Вы ввели некорректное значение даты");
+                System.out.println("Введите корректное значение даты");
             }
         } catch (DateTimeException e) {
-            System.out.println("Вы ввели некорректное значение даты");
+            System.out.println("Введите корректное значение даты");
         }
     }
 
@@ -94,9 +94,9 @@ public class Notebook {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Notebook notebook = (Notebook) o;
-        return Objects.equals(purposeForDay, notebook.purposeForDay) && Objects.equals(purpose,
-                notebook.purpose) && Objects.equals(purpose, notebook.purpose);
+        Notebook diary = (Notebook) o;
+        return Objects.equals(purposeForDay, diary.purposeForDay) && Objects.equals(purposeMap,
+                diary.purposeMap) && Objects.equals(purpose, diary.purpose);
     }
 
     @Override

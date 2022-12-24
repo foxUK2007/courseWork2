@@ -6,87 +6,86 @@ import java.util.Objects;
 public abstract class Purpose {
 
     private String title;
-
     private String note;
-
-    private final TypeOfPurpose typeOfPurpose;
-
+    private final TypeOfPurpose type;
     private final int id;
-
     private static int counter = 0;
+    protected LocalDateTime date;
 
-    private LocalDateTime date;
-
-
-    public Purpose(String title, String note, TypeOfPurpose typeOfPurpose, LocalDateTime date) {
-        this.title = title;
+    public Purpose(String title, String note, TypeOfPurpose type, LocalDateTime date) {
+        this.title = setTitle(title);
         this.note = setNote(note);
-        this.typeOfPurpose = typeOfPurpose;
+        this.type = type;
         this.date = date;
         counter++;
         this.id = counter;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public String setTitle(String title) {
         if ((title != null && !title.trim().isEmpty())) {
             this.title = title;
         } else {
-            System.out.println("Введите корректно название цели!");
+            System.out.println("Такого имени не существует");
         }
         return title;
     }
 
-
-    public String getNote() {
-        return note;
-    }
-
     public String setNote(String note) {
-        if ((note != null && !note.trim().isEmpty())) {
+        if ((title != null && !title.trim().isEmpty())) {
             this.note = note;
         } else {
-            System.out.println("Введите корректное описание цели!");
+            System.out.println("Введите корректное описание!");
         }
         return note;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public String getTitle() {
+        return title;
     }
 
-    public abstract String getTypePurpose();
+    public String getNote() {
+        return note;
+    }
+
+    public TypeOfPurpose getType() {
+        return type;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public abstract String getTypeRepeatable();
+
+
+    @Override
+    public String toString() {
+        return "\n\"" + title + "\"" +
+                ", необходимо " + note +
+                ". " + type + ", дата выполнения: " + date + ", повторяемость: " + getTypeRepeatable();
+    }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Purpose purpose = (Purpose) o;
-        return id == purpose.id && Objects.equals(title, purpose.title) && Objects.equals(note, purpose.note) && Objects.equals(typeOfPurpose, purpose.typeOfPurpose) && Objects.equals(date, purpose.date);
+        return id == purpose.id && Objects.equals(title, purpose.title) && Objects.equals(
+                note, purpose.note) && type == purpose.type && Objects.equals(date,
+                purpose.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, note, typeOfPurpose, id, date);
-    }
-
-    @Override
-    public String toString() {
-        return "Цель: " +
-                title +
-                ", описание " + note +
-                date;
+        return Objects.hash(title, type, id, date);
     }
 }
 

@@ -8,14 +8,4 @@ public interface Repeatable {
 }
 
 
-//    void oneTimePurpose ();
-//
-//    void dailyPurpose ();
-//
-//    void weeklyPurpose ();
-//
-//    void monthlyPurpose ();
-//
-//    void annualPurpose ();
-
 

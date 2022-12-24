@@ -28,13 +28,13 @@ public class Main {
                             inputTask(scanner);
                             break;
                         case 2:
-                            System.out.println("Какую цель Вы хотите удалить:\n");
+                            System.out.println("Выберите цель, которую хотите удалить:\n");
                             System.out.println("Доступные цели: \n" + notebook + "\n");
                             notebook.removeMapPurpose(scanner.nextInt());
                             System.out.println("Цель удалена!");
                             break;
                         case 3:
-                            System.out.println("Введите дату и время выполнения цели (ГГГГ.ММ.ДД):");
+                            System.out.println("Введите дату и время цели (ГГГГ.ММ.ДД):");
                             notebook.getPurposeForDay(LocalDate.parse(scanner.next(), D_FORMAT));
                             break;
                         case 0:
@@ -52,24 +52,18 @@ public class Main {
     private static void inputTask(Scanner scanner) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Введите название цели: ");
-        String purposeTitle = sc.nextLine();
+        String title = sc.nextLine();
         System.out.println("Введите описание цели: ");
         String note = sc.nextLine();
-        System.out.println("Выберите повторяемость целм: однократная, ежедневная, еженедельная, ежемесячная, ежегодная задача. ");
+        System.out.println("Введите тип цели \"Личная\" или \"Рабочая\"?");
         TypeOfPurpose typeOfPurpose;
-        if (scanner.next().trim().equalsIgnoreCase("однократная")) {
-            typeOfPurpose = TypeOfPurpose.ONE_TIME;
-        }if (scanner.next().trim().equalsIgnoreCase("ежедневная")){
-            typeOfPurpose = TypeOfPurpose.DAILY;
-        }if (scanner.next().trim().equalsIgnoreCase("еженедельная")){
-            typeOfPurpose = TypeOfPurpose.WEEKLY;
-        }if (scanner.next().trim().equalsIgnoreCase("ежемесячная")){
-            typeOfPurpose = TypeOfPurpose.MONTHLY;
-        } else{
-            typeOfPurpose = TypeOfPurpose.ANNUAL;
+        if (scanner.next().trim().equalsIgnoreCase("Личная")) {
+            typeOfPurpose = TypeOfPurpose.PERSONAL_TASK;
+        } else {
+            typeOfPurpose = TypeOfPurpose.WORK_TASK;
         }
         LocalDateTime dateTime;
-        System.out.println("Введите дату и время задачи (ГГГГ.ММ.ДД,ЧЧ:00):");
+        System.out.println("Введите дату и время цели (ГГГГ.ММ.ДД,ЧЧ:00):");
         dateTime = LocalDateTime.parse(scanner.next(), D_T_FORMAT);
         boolean tr = false;
         while (tr) {
@@ -81,29 +75,36 @@ public class Main {
             }
         }
         System.out.println(
-                "Выберите тип цели?");
+                "Укажите повторяемость цели");
         switch (scanner.next()) {
-            case "рабочая":
-                purpose = new TaskWP(purposeTitle, note, typeOfPurpose, dateTime);
+            case "однократная":
+                purpose = new OneTimePurpose(title, note, typeOfPurpose, dateTime);
                 break;
-            case "личная":
-                purpose = new TaskPP(purposeTitle, note, typeOfPurpose, dateTime) {
-                };
+            case "ежедневная":
+                purpose = new DailyPurpose(title, note, typeOfPurpose, dateTime);
                 break;
-
+            case "еженедельная":
+                purpose = new WeeklyPurpose(title, note, typeOfPurpose, dateTime);
+                break;
+            case "ежемесячная":
+                purpose = new MonthlyPurpose(title, note, typeOfPurpose, dateTime);
+                break;
+            case "ежегодная":
+                purpose = new AnnualPurpose(title, note, typeOfPurpose, dateTime);
+                break;
         }
         try {
             if (notebook.addMapPurpose(purpose)) {
-                System.out.println("Задача успешно добавлена!");
+                System.out.println("Цель успешно добавлена!");
             }
         } catch (NullPointerException e) {
-            System.out.println("Задача не добавлена! Повторяемость задачи введена неверно!");
+            System.out.println("Цель не добавлена! Повторяемость цели введена неверно!");
         }
     }
 
     private static void printMenu() {
         System.out.println(
-                "1. Добавить задачу \n2. Удалить задачу \n3. Получить задачу на указанный день \n0. Выход ");
+                "1. Добавить цель \n2. Удалить цель \n3. Получить цель на указанный день \n0. Выход ");
     }
 }
 

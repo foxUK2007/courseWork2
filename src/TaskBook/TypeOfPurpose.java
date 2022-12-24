@@ -1,18 +1,22 @@
 package TaskBook;
 
 public enum TypeOfPurpose {
+    PERSONAL_TASK("\"личная\""),
+    WORK_TASK("\"рабочая\"");
 
-    ONE_TIME ("Однократная"),
-    DAILY ("Ежедневная"),
-    WEEKLY("Еженедельная"),
-    MONTHLY("Ежемесячная"),
-    ANNUAL("Ежегодная");
+    private final String typeOfPurpose;
+
+    TypeOfPurpose(String typeOfPurpose) {
+        this.typeOfPurpose = typeOfPurpose;
+    }
+
+    public String getTypeOfPurpose() {
+        return typeOfPurpose;
+    }
 
 
-
-    final String TypeOfPurpose;
-
-    TypeOfPurpose(String TypeOfPurpose) {
-        this.TypeOfPurpose = TypeOfPurpose;
+    @Override
+    public String toString() {
+        return "Тип задачи: " + typeOfPurpose;
     }
 }
